@@ -1,38 +1,71 @@
-import React, { useEffect } from "react";
-import { CartState } from "../../context/Context";
-import ProductCard from "./productCard/ProductCard";
+import React from "react";
+import { CartState } from "../../functionalities/context/Context";
+import CardContainer from "./CardContainer/CardContainer";
 
 const ProductsList = () => {
   const {
     state: { products },
-    productState: { byColor, searchQuery },
+    productState: {
+      colorFilter,
+      genderFilter,
+      priceFilter,
+      typeFilter,
+      searchFilter,
+    },
   } = CartState();
 
   const filterProducts = () => {
-    let filteredItems = products;
+    let filteredproducts = products;
 
-    if (searchQuery) {
-      filteredItems = filteredItems.filter((item) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    if (byColor.length) {
-      filteredItems = filteredItems.filter((item) =>
-        byColor.includes(item.color)
+    if (colorFilter.length) {
+      filteredproducts = filteredproducts.filter((product) =>
+        colorFilter.includes(product.color)
       );
     }
 
-    return filteredItems;
+    if (genderFilter.length) {
+      filteredproducts = filteredproducts.filter((product) =>
+        genderFilter.includes(product.gender)
+      );
+    }
+
+    if (priceFilter.length) {
+      filteredproducts = filteredproducts.filter((product) =>
+        priceFilter.some((range) => {
+          // [0,250] = range example
+          if (product.price >= range[0] && product.price <= range[1]) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
+    }
+
+    if (typeFilter.length) {
+      filteredproducts = filteredproducts.filter((product) =>
+        typeFilter.includes(product.type)
+      );
+    }
+
+    if (searchFilter) {
+      filteredproducts = filteredproducts.filter((product) =>
+        product.name.toLowerCase().includes(searchFilter.toLowerCase())
+      );
+    }
+
+    return filteredproducts;
   };
-  useEffect(() => {
-    filterProducts();
-  }, [searchQuery]);
 
   return (
-    <div className="flex flex-1 flex-wrap gap-16 justify-center">
-      {filterProducts().map((item) => (
-        <ProductCard item={item} key={item.id} />
-      ))}
+    <div className="flex flex-wrap gap-16 justify-center">
+      {filterProducts().length !== 0 ? (
+        filterProducts().map((product) => (
+          <CardContainer product={product} key={product.id} />
+        ))
+      ) : (
+        <span className="text-2xl">No Match Found </span>
+      )}
     </div>
   );
 };

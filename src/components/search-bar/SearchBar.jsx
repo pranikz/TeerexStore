@@ -1,34 +1,27 @@
 import React from "react";
-import { BiSearchAlt2 } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
-import { CartState } from "../../context/Context";
+import { CartState } from "../../functionalities/context/Context";
 
 const SearchBar = () => {
-  const {
-    state: { productDispatch },
-  } = CartState();
-
+  const { productDispatch } = CartState();
   return (
-    <div className="py-8 text-center">
+    <div className="py-8 text-center border-gray-700 ">
       <div className="flex items-center gap-4 justify-center">
         {useLocation().pathname.split("/")[1] !== "cart" && (
           <input
-            className="border-b-[1px] border-gray-500 p-2 sm:w-96"
+            className="px-4 border-[1px] border-gray-500 p-2 sm:w-96 rounded-3xl"
             type="text"
             name="searchText"
             id="searchText"
-            placeholder="Search for products..."
+            placeholder="Search for products 🔍..."
             onChange={(e) => {
               productDispatch({
-                type: "SEARCH_FILTER",
+                type: "FILTER_SEARCH",
                 payload: e.target.value,
               });
             }}
           />
         )}
-        <button className="border-none bg-black p-2 text-xl text-white">
-          <BiSearchAlt2 />
-        </button>
       </div>
     </div>
   );
