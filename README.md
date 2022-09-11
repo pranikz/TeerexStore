@@ -1,9 +1,9 @@
-#⚙️ Functionalities
-- Browse through catalog. :white_check_mark:
-- Search through catalog. :white_check_mark:
-- Apply mutpliple filters and serach through the filters. :white_check_mark:
-- Add/Delete items in cart page. :white_check_mark:
-- Show total amount on cart page. :white_check_mark:
+# Functionalities
+- Browse through catalog. 
+- Search through catalog. 
+- Apply mutpliple filters and serach through the filters. 
+- Add/Delete items in cart page. 
+- Show total amount on cart page.
 
 # Tools used
  - React JS
